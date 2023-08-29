@@ -15,3 +15,6 @@ docsify init ./docs
 ```
 docsify serve docs
 ```
+
+4. Access
+Access the http://localhost:3000
