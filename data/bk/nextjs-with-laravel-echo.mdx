@@ -1,0 +1,67 @@
+---
+title: Config NextJS with Laravel Echo + Pusher
+date: '2024-11-04'
+tags: ['nextjs', 'laravel']
+summary: Hướng dẫn config NextJS với Laravel Echo và Pusher
+slug: nextjs-with-laravel-echo
+---
+
+## Nextjs with laravel echo + pusher
+
+### Step 1: Install Laravel Echo And Pusher JS
+
+```bash
+    npm install --save-dev laravel-echo pusher-js
+```
+
+### Step 2: Create a new file in the root of your project called `socket.ts` and add the following code:
+
+```typescript
+import Pusher from 'pusher-js';
+import Echo from 'laravel-echo';
+
+declare global {
+    interface Window {
+        Pusher: typeof Pusher;
+        Echo: Echo;
+    }
+}
+
+export const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
+    cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
+});
+
+export const echo = () => {
+    if (typeof window === 'undefined') return;
+
+    window.Pusher = Pusher;
+
+    return new Echo({
+        broadcaster: 'pusher',
+        key: process.env.NEXT_PUBLIC_PUSHER_KEY,
+        cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
+        forceTLS: true,
+    });
+};
+```
+
+### Step 3: Test
+
+```typescript
+useEffect(() => {
+        const channel = pusher.subscribe(CHANEL_NAME);
+        channel.bind(CHANEL_EVENT, (data: any) => {
+            setNotifications([...notifications, data]);
+            console.log(data);
+        });
+        return () => {
+            pusher.unsubscribe(CHANEL_NAME);
+        };
+        // using echo
+        echo()!
+            .channel(CHANEL_NAME);
+            .listen('.' + CHANEL_EVENT, (data: any) => {
+                console.log(data);
+            });
+    }, [router]);
+```

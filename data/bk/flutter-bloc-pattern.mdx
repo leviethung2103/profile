@@ -1,0 +1,124 @@
+---
+title: 'Flutter BLoC Pattern'
+date: '2022-01-01'
+tags: ['flutter', 'bloc', 'state-management', 'flutter-bloc']
+summary: Learn how to implement the BLoC pattern in your Flutter app.
+slug: flutter-bloc-pattern
+---
+
+The BLoC (Business Logic Component) pattern is a popular state management approach in Flutter applications. It helps separate the UI from the business logic and provides a clear and scalable architecture.
+
+To implement the BLoC pattern in Flutter, you can follow these steps:
+
+1. Create a new Flutter project or open an existing one.
+
+2. Add the `flutter_bloc` package to your `pubspec.yaml` file:
+
+    ```yaml
+    dependencies:
+        flutter_bloc: ^8.1.5
+    ```
+
+3. Create a new file for your BLoC class, e.g., `counter_bloc.dart`. In this file, define your BLoC class by extending the `Bloc` class from the `flutter_bloc` package:
+
+    ```dart
+    import 'package:flutter_bloc/flutter_bloc.dart';
+
+    class CounterBloc extends Bloc<CounterEvent, int> {
+      CounterBloc() : super(0);
+
+      @override
+      Stream<int> mapEventToState(CounterEvent event) async* {
+         if (event is IncrementEvent) {
+            yield state + 1;
+         } else if (event is DecrementEvent) {
+            yield state - 1;
+         }
+      }
+    }
+    ```
+
+4. Define the events that your BLoC will handle. Create a new file, e.g., `counter_event.dart`, and define your event classes:
+
+    ```dart
+    abstract class CounterEvent {}
+
+    class IncrementEvent extends CounterEvent {}
+
+    class DecrementEvent extends CounterEvent {}
+    ```
+
+5. In your Flutter widget, import the necessary packages and create an instance of your BLoC class:
+
+    ```dart
+    import 'package:flutter_bloc/flutter_bloc.dart';
+
+    class CounterWidget extends StatelessWidget {
+      @override
+      Widget build(BuildContext context) {
+         return BlocProvider(
+            create: (context) => CounterBloc(),
+            child: CounterView(),
+         );
+      }
+    }
+    ```
+
+6. Create the UI for your widget, e.g., `counter_view.dart`, and use the `BlocBuilder` widget from the `flutter_bloc` package to listen to state changes and update the UI accordingly:
+
+    ```dart
+    import 'package:flutter_bloc/flutter_bloc.dart';
+
+    class CounterView extends StatelessWidget {
+      @override
+      Widget build(BuildContext context) {
+         return Scaffold(
+            appBar: AppBar(
+              title: Text('Flutter BLoC Pattern'),
+            ),
+            body: Center(
+              child: Column(
+                 mainAxisAlignment: MainAxisAlignment.center,
+                 children: [
+                    Text(
+                      'Counter Value:',
+                    ),
+                    BlocBuilder<CounterBloc, int>(
+                      builder: (context, state) {
+                         return Text(
+                            '$state',
+                            style: TextStyle(fontSize: 24),
+                         );
+                      },
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                         ElevatedButton(
+                            onPressed: () {
+                              context.read<CounterBloc>().add(IncrementEvent());
+                            },
+                            child: Icon(Icons.add),
+                         ),
+                         SizedBox(width: 16),
+                         ElevatedButton(
+                            onPressed: () {
+                              context.read<CounterBloc>().add(DecrementEvent());
+                            },
+                            child: Icon(Icons.remove),
+                         ),
+                      ],
+                    ),
+                 ],
+              ),
+            ),
+         );
+      }
+    }
+    ```
+
+7. Run your Flutter application and see the BLoC pattern in action!
+
+This is just a basic example of how to implement the BLoC pattern in Flutter. You can extend it further by adding more events, states, and business logic to your BLoC class.
+
+Remember to import the necessary packages and follow the Flutter BLoC documentation for more advanced usage and best practices.

@@ -1,0 +1,27 @@
+---
+title: Lần đầu tiên python
+date: '2020-01-04'
+tags: ['python']
+summary: Ngôn ngữ siêu gọn
+slug: lan-dau-code-python
+---
+
+## Python with two-sum [leetcode](https://leetcode.com/problems/two-sum/description/)
+
+## Testcase:
+
+![image](/images/two-sum.png)
+
+## Result:
+
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        _dict = {}
+        for i in range(len(nums)):
+            x = target - nums[i]
+            if x not in _dict:
+                _dict[nums[i]] = i
+            else:
+                return [i, _dict[x]]
+```

@@ -1,0 +1,89 @@
+/* YourStylesheet.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dark {
+    height: 100vh;
+    background-color: rgb(3 7 18);
+}
+
+.custom-a {
+    text-decoration: none;
+    position: relative;
+}
+
+.custom-a:after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    top: 60%;
+    left: -0.1em;
+    right: -0.1em;
+    bottom: 0;
+    transition: top 200ms cubic-bezier(0, 0.8, 0.13, 1);
+    background-color: rgba(0, 255, 140, 0.5);
+}
+
+.custom-a:hover:after {
+    top: 0%;
+}
+
+.highlight {
+    background-color: rgba(0, 255, 140, 0.5);
+}
+
+/* prose dark mode color white */
+.dark .prose {
+    color: white;
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6,
+.dark .prose p,
+.dark .prose a,
+.dark .prose li,
+.dark .prose blockquote,
+.dark .prose pre,
+.dark .prose code {
+    color: white;
+}
+
+.blog-pre {
+    margin-bottom: 3em !important;
+    -webkit-box-shadow:
+        -10px 0px 13px -7px #000000,
+        10px 0px 13px -7px #000000,
+        35px -23px 2px -16px rgba(0, 0, 0, 0);
+    box-shadow:
+        -10px 0px 13px -7px #000000,
+        10px 0px 13px -7px #000000,
+        35px -23px 2px -16px rgba(0, 0, 0, 0);
+    position: relative;
+}
+
+.code-copy-btn {
+    height: 18px;
+    width: 18px;
+    fill: white;
+    color: white;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.code-copy-btn:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+.prose p {
+    text-overflow: ellipsis;
+}
